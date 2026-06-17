@@ -1,0 +1,84 @@
+@server=http://localhost:4004
+@username=alice
+@password=
+
+
+### book
+# @name book_GET
+GET {{server}}/odata/v4/catalog/Books
+Authorization: Basic {{username}}:{{password}}
+
+
+### metadata default en
+# @name metadata_GET
+GET {{server}}/odata/v4/catalog/$metadata
+Authorization: Basic {{username}}:{{password}}
+
+
+### metadata de
+# @name metadata_GET
+GET {{server}}/odata/v4/catalog/$metadata
+Accept-Language: de
+Authorization: Basic {{username}}:{{password}}
+
+
+### metadata zh
+# @name metadata_GET
+GET {{server}}/odata/v4/catalog/$metadata
+Accept-Language: zh
+Authorization: Basic {{username}}:{{password}}
+
+
+### metadata ja
+# @name metadata_GET
+GET {{server}}/odata/v4/catalog/$metadata
+Accept-Language: ja
+Authorization: Basic {{username}}:{{password}}
+
+
+
+### Books
+# @name Books_POST
+POST {{server}}/odata/v4/catalog/Books(ID=b0000001-0000-0000-0000-000000000002)/publish
+Accept-Language: ja
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{}
+
+### Books
+# @name Books_POST
+POST {{server}}/odata/v4/catalog/Books(ID=b0000001-0000-0000-0000-000000000001)/publish
+Accept-Language: ja
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{}
+
+
+
+# PS D:\lee\projects\my-i18n> cds repl
+# Welcome to cds repl v9.9.0
+# > cds.i18n.labels.at('BookTitle','de')
+# Buchtitel
+# > cds.i18n.labels.at('BookTitle','zh')
+# 书名
+
+# > cds.i18n.messages.at('ORDER_EXCEEDS_STOCK', { quantity: 11, stock: 12 })
+# The order of 11 books exceeds available stock 12
+
+# > cds.context = { locale: 'zh_CN' }
+# { locale: 'zh_CN' }
+# > cds.i18n.messages.at('ORDER_EXCEEDS_STOCK', { quantity: 11, stock: 12 })
+# 订单数量为11本，超过了现有库存12。
+# > 
+
+
+
+# > const bundle = cds.i18n.bundle4('messages')
+# > const text = bundle.at('ORDER_EXCEEDS_STOCK', {quantity:'5', stock:'2'}, 'zh_CN')
+# > console.log(text1)
+# The order of 5 books exceeds available stock 2
+# 等价于
+# > cds.i18n.messages.at('ORDER_EXCEEDS_STOCK', { quantity: 5, stock: 2 }, 'zh_CN')
+# The order of 5 books exceeds available stock 2
